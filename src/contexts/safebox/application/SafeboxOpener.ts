@@ -20,12 +20,10 @@ export default class SafeboxOpener {
     }
 
     if (!name.equalsTo(safebox.name)) {
-      throw new SafeboxNameNotMatch(safebox.name);
+      throw new SafeboxNameNotMatch(name);
     }
 
-    if (
-      !(await SafeboxPassword.isPasswordMatched(password, safebox.password))
-    ) {
+    if (!SafeboxPassword.isPasswordMatches(password, safebox.password)) {
       throw new SafeboxPasswordNotMatch(password);
     }
 

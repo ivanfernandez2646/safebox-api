@@ -1,0 +1,152 @@
+openapi: 3.0.0
+
+info:
+  description: |
+    Safebox API - The most secure safebox. <b>Safebox to test {
+      id: 'dfb96de6-3ddd-420e-98b9-a90ea83cab16',
+      name: 'ivan',
+      password: 'abc',
+    }</b>
+  version: 1.0.0
+  title: Safebox API - Customized
+
+paths:
+  /safebox:
+    post:
+      summary: Creates a new safebox
+      description: |
+        Creates a new safebox based on a non-empty name and a password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Safebox Name
+                  type: string
+                password:
+                  description: Safebox Password
+                  type: string
+              required:
+                - name
+                - password
+              example:
+                name: Secure safebox 01
+                password: extremelySecurePassword
+      responses:
+        '200':
+          description: Safebox correctly created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: Safebox id
+                    type: string
+                required:
+                  - id
+                example:
+                  id: f626c808-648c-41fe-865d-c6062f3e0899
+        '409':
+          description: Safebox already exists
+        '500':
+          description: Unexpected API error
+  /safebox/{id}:
+    get:
+      summary: Retrieve a safebox
+      description: |
+        Return safebox entity props (id, name and password (hashed))
+      parameters:
+        - in: path
+          name: id
+          description: Safebox id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Safebox correctly opened
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Safebox'
+        '401':
+          description: Specified credentials do not match
+        '404':
+          description: Requested safebox does not exist
+        '500':
+          description: Unexpected API error
+  /safebox/{id}/open:
+    post:
+      summary: Open a safebox
+      description: |
+        Opens the safebox identified by the given ID and with the specified user & password. (It returns safebox id if it opens correctly)
+      parameters:
+        - in: path
+          name: id
+          description: Safebox id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Safebox Name
+                  type: string
+                password:
+                  description: Safebox Password
+                  type: string
+              required:
+                - name
+                - password
+              example:
+                name: Secure safebox 01
+                password: extremelySecurePassword
+      responses:
+        '200':
+          description: Safebox correctly opened
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: Safebox id
+                    type: string
+                required:
+                  - id
+                example:
+                  id: f626c808-648c-41fe-865d-c6062f3e0899
+        '401':
+          description: Specified credentials do not match
+        '404':
+          description: Requested safebox does not exist
+        '500':
+          description: Unexpected API error
+
+components:
+  schemas:
+    Safebox:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the Safebox.
+        name:
+          type: string
+          description: The name associated with the Safebox.
+        password:
+          type: string
+          description: The password (hashed) for accessing the Safebox.
+      required:
+        - id
+        - name
+        - password

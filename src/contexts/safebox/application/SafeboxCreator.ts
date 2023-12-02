@@ -20,7 +20,7 @@ export default class SafeboxCreator {
     name: SafeboxName;
     password: SafeboxPassword;
   }): Promise<void> {
-    const safebox = await Safebox.create({ id, name, password });
+    const safebox = Safebox.create({ id, name, password });
     return this.repository.create(safebox);
   }
 }

@@ -20,7 +20,7 @@ export class SafeboxController {
     return id.value;
   }
 
-  @Get('/open/:id')
+  @Post('/:id/open')
   async open(
     @Param('id') plainId: string,
     @Body() body: Partial<SafeboxPrimitives>,

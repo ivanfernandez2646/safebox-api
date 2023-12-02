@@ -30,7 +30,7 @@ export class Safebox extends AggregateRoot {
     this.password = password;
   }
 
-  static async create({
+  static create({
     id,
     name,
     password,
@@ -42,7 +42,7 @@ export class Safebox extends AggregateRoot {
     const safebox = new Safebox({
       id,
       name,
-      password: await password.hashPassword(password.value),
+      password: password.hashPassword(password.value),
     });
 
     //safebox.record()

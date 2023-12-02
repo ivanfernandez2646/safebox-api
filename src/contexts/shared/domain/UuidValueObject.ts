@@ -1,5 +1,4 @@
 import { v4, validate } from 'uuid';
-
 import InvalidArgumentError from './InvalidArgumentError';
 import RequiredStringValueObject from './RequiredStringValueObject';
 
